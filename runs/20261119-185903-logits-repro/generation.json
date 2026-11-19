@@ -1,0 +1,9 @@
+{
+  "load": "logs/Inference_Testing/runs/20261119-182859-gpu1/checkpoint",
+  "iteration": 1,
+  "text_gen_type": "input-file",
+  "prompt_end": "\n",
+  "sample_input_file": "logs/Inference_Testing/runs/20261119-185903-logits-repro/prompt.txt",
+  "minimum_tokens": 8,
+  "maximum_tokens": 8
+}

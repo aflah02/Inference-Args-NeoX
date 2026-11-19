@@ -1,0 +1,36 @@
+[2026-11-19 16:21:23,865] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+df: /tmp/.triton/autotune: No such file or directory
+/workspace/gpt-neox/megatron/neox_arguments/arguments.py:1231: SyntaxWarning: assertion is always true, perhaps remove parentheses?
+  assert (
+/workspace/gpt-neox/megatron/neox_arguments/arguments.py:1240: SyntaxWarning: assertion is always true, perhaps remove parentheses?
+  assert (
+Traceback (most recent call last):
+  File "/workspace/gpt-neox/deepy.py", line 41, in <module>
+    main()
+  File "/workspace/gpt-neox/deepy.py", line 25, in main
+    from megatron.neox_arguments import NeoXArgs
+  File "/workspace/gpt-neox/megatron/__init__.py", line 26, in <module>
+    from .neox_arguments import NeoXArgs
+  File "/workspace/gpt-neox/megatron/neox_arguments/__init__.py", line 36, in <module>
+    from .arguments import NeoXArgs
+  File "/workspace/gpt-neox/megatron/neox_arguments/arguments.py", line 36, in <module>
+    from megatron.logging import Tee
+  File "/workspace/gpt-neox/megatron/logging.py", line 20, in <module>
+    import wandb
+  File "/usr/local/lib/python3.10/dist-packages/wandb/__init__.py", line 22, in <module>
+    from wandb.sdk.lib import wb_logging as _wb_logging
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/__init__.py", line 24, in <module>
+    from . import wandb_helper as helper
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/wandb_helper.py", line 6, in <module>
+    from .lib import config_util
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/lib/config_util.py", line 12, in <module>
+    from . import filesystem
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/lib/filesystem.py", line 19, in <module>
+    from wandb.sdk.wandb_settings import Settings
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/wandb_settings.py", line 33, in <module>
+    from wandb.sdk.lib import deprecation, settings_file, urls
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/lib/deprecation.py", line 6, in <module>
+    from wandb.sdk.lib import telemetry
+  File "/usr/local/lib/python3.10/dist-packages/wandb/sdk/lib/telemetry.py", line 10, in <module>
+    from wandb.proto.wandb_telemetry_pb2 import Imports as TelemetryImports
+ImportError: cannot import name 'Imports' from 'wandb.proto.wandb_telemetry_pb2' (/usr/local/lib/python3.10/dist-packages/wandb/proto/wandb_telemetry_pb2.py)

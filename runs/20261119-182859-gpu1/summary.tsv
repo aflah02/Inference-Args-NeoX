@@ -1,0 +1,13 @@
+case	status	detail
+greedy	PASS	length=0, finished=True
+minimum_tokens	PASS	length=3, finished=True
+at_cap	PASS	length=8, finished=False
+temperature	PASS	length=3, finished=True
+top_k	PASS	length=1, finished=True
+top_p	PASS	length=3, finished=True
+min_p	PASS	length=3, finished=True
+top_h	PASS	length=1, finished=True
+typical_p	PASS	length=8, finished=False
+epsilon_cutoff	PASS	length=1, finished=True
+eta_cutoff	PASS	length=3, finished=True
+combined	PASS	length=2, finished=True

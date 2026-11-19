@@ -1,0 +1,565 @@
+[2026-11-19 16:27:12,053] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+/workspace/gpt-neox/megatron/neox_arguments/arguments.py:1231: SyntaxWarning: assertion is always true, perhaps remove parentheses?
+  assert (
+/workspace/gpt-neox/megatron/neox_arguments/arguments.py:1240: SyntaxWarning: assertion is always true, perhaps remove parentheses?
+  assert (
+NeoXArgs.from_ymls() ['/workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/epsilon_cutoff.json']
+INFO:root:NeoXArgs.calculate_derived() Total number of GPUs determined to be: 1
+-------------------- arguments --------------------
+  attention_config ................ ['global', 'global']........updated
+  batch_size ...................... 1...........................updated
+  config_files .................... {'epsilon_cutoff.json': '{\n  "num_gpus": 1,\n  "global_num_gpus": 1,\n  "pipe_parallel_size": 0,\n  "model_parallel_size": 1,\n  "num_layers": 2,\n  "hidden_size": 64,\n  "num_attention_heads": 4,\n  "attention_config": [\n    [\n      [\n        "global"\n      ],\n      2\n    ]\n  ],\n  "seq_length": 32,\n  "max_position_embeddings": 32,\n  "pos_emb": "rotary",\n  "no_weight_tying": true,\n  "output_layer_parallelism": "column",\n  "norm": "layernorm",\n  "precision": "fp32",\n  "hidden_dropout": 0.0,\n  "attention_dropout": 0.0,\n  "scaled_upper_triang_masked_softmax_fusion": false,\n  "scaled_masked_softmax_fusion": false,\n  "bias_gelu_fusion": false,\n  "bias_dropout_fusion": false,\n  "rope_fusion": false,\n  "layernorm_fusion": false,\n  "checkpoint_activations": false,\n  "partition_activations": false,\n  "checkpoint_validation_with_forward_pass": false,\n  "tokenizer_type": "CharLevelTokenizer",\n  "train_micro_batch_size_per_gpu": 1,\n  "gradient_accumulation_steps": 1,\n  "train_iters": 1,\n  "no_load_optim": true,\n  "no_load_rng": true,\n  "use_wandb": false,\n  "seed": 1234,\n  "load": "/workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/checkpoint",\n  "iteration": 1,\n  "text_gen_type": "input-file",\n  "prompt_end": "\\n",\n  "sample_input_file": "/workspace/gpt-neox/logs/Inference_Testing/prompt.txt",\n  "sample_output_file": "/workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/epsilon_cutoff.jsonl",\n  "maximum_tokens": 8,\n  "return_logits": true,\n  "epsilon_cutoff": 0.14\n}\n'}updated
+  dynamic_loss_scale .............. True........................updated
+  epsilon_cutoff .................. 0.14........................updated
+  global_num_gpus ................. 1...........................updated
+  hidden_size ..................... 64..........................updated
+  iteration ....................... 1...........................updated
+  load ............................ /workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/checkpointupdated
+  lr .............................. 0.001.......................updated
+  max_position_embeddings ......... 32..........................updated
+  maximum_tokens .................. 8...........................updated
+  no_load_optim ................... True........................updated
+  no_load_rng ..................... True........................updated
+  no_weight_tying ................. True........................updated
+  num_attention_heads ............. 4...........................updated
+  num_gpus ........................ 1...........................updated
+  num_layers ...................... 2...........................updated
+  optimizer_type .................. Adam........................updated
+  pos_emb ......................... rotary......................updated
+  precision ....................... fp32........................updated
+  return_logits ................... True........................updated
+  sample_input_file ............... /workspace/gpt-neox/logs/Inference_Testing/prompt.txtupdated
+  sample_output_file .............. /workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/epsilon_cutoff.jsonlupdated
+  seq_length ...................... 32..........................updated
+  sparsity_config ................. {}..........................updated
+  text_gen_type ................... input-file..................updated
+  tokenizer_type .................. CharLevelTokenizer..........updated
+  train_batch_size ................ 1...........................updated
+  train_iters ..................... 1...........................updated
+  train_micro_batch_size_per_gpu .. 1...........................updated
+  use_wandb ....................... False.......................updated
+  user_script ..................... generate.py.................updated
+  zero_optimization ............... {'stage': 0, 'allgather_partitions': True, 'reduce_scatter': True, 'allgather_bucket_size': 500000000, 'overlap_comm': False, 'reduce_bucket_size': 500000000, 'contiguous_gradients': False}updated
+  zero_stage ...................... 0...........................updated
+  account ......................... None........................default
+  activation ...................... gelu........................default
+  activation_checkpointing ........ None........................default
+  adlr_autoresume ................. False.......................default
+  adlr_autoresume_interval ........ 1000........................default
+  allow_chopped ................... True........................default
+  amp ............................. None........................default
+  apply_query_key_layer_scaling ... False.......................default
+  attention_dropout ............... 0.0.........................default
+  attention_softmax_in_fp32 ....... False.......................default
+  autotuning ...................... None........................default
+  autotuning_run .................. None........................default
+  base_shapes_file ................ None........................default
+  bf16 ............................ None........................default
+  bias_dropout_fusion ............. False.......................default
+  bias_gelu_fusion ................ False.......................default
+  char_level_ppl .................. False.......................default
+  checkpoint ...................... None........................default
+  checkpoint_activations .......... False.......................default
+  checkpoint_factor ............... None........................default
+  checkpoint_in_cpu ............... False.......................default
+  checkpoint_num_layers ........... 1...........................default
+  checkpoint_scale ................ linear......................default
+  checkpoint_validation_with_forward_pass  False................default
+  comet_experiment ................ None........................default
+  comet_experiment_name ........... None........................default
+  comet_others .................... None........................default
+  comet_project ................... None........................default
+  comet_tags ...................... None........................default
+  comet_workspace ................. None........................default
+  comment ......................... None........................default
+  comms_logger .................... None........................default
+  communication_data_type ......... None........................default
+  compression_training ............ None........................default
+  contiguous_checkpointing ........ False.......................default
+  coord_check ..................... False.......................default
+  csv_monitor ..................... None........................default
+  curriculum_learning ............. None........................default
+  curriculum_seqlen ............... 0...........................default
+  data_efficiency ................. None........................default
+  data_impl ....................... infer.......................default
+  data_path ....................... None........................default
+  data_types ...................... None........................default
+  dataset_impl .................... gpt2........................default
+  deepscale ....................... False.......................default
+  deepscale_config ................ None........................default
+  deepspeed ....................... True........................default
+  deepspeed_activation_checkpointing  True......................default
+  deepspeed_extra_args ............ None........................default
+  deepspeed_mpi ................... False.......................default
+  deepspeed_slurm ................. False.......................default
+  dim_att ......................... None........................default
+  distributed_backend ............. nccl........................default
+  do_test ......................... None........................default
+  do_train ........................ None........................default
+  do_valid ........................ None........................default
+  dpo_beta ........................ 0.1.........................default
+  dpo_fp32 ........................ True........................default
+  dpo_reference_free .............. False.......................default
+  dump_state ...................... False.......................default
+  elasticity ...................... None........................default
+  eod_mask_loss ................... False.......................default
+  eta_cutoff ...................... 0.0.........................default
+  eval_interval ................... 1000........................default
+  eval_iters ...................... 100.........................default
+  eval_loss_logging ............... blended.....................default
+  eval_results_prefix ............. ............................default
+  eval_tasks ...................... None........................default
+  exclude ......................... None........................default
+  exit_interval ................... None........................default
+  expansion_factor ................ None........................default
+  extra_save_iters ................ None........................default
+  ffn_dim ......................... None........................default
+  finetune ........................ False.......................default
+  flops_profiler .................. None........................default
+  force_multi ..................... False.......................default
+  fp16 ............................ None........................default
+  fp16_lm_cross_entropy ........... False.......................default
+  fp32_allreduce .................. False.......................default
+  fp32_reinforce .................. True........................default
+  fused_kernels_build_path ........ None........................default
+  git_hash ........................ dceeb6a.....................default
+  gmlp_attn_dim ................... 64..........................default
+  gpt_j_residual .................. False.......................default
+  gpt_j_tied ...................... False.......................default
+  gradient_accumulation_steps ..... 1...........................default
+  gradient_clipping ............... 0.0.........................default
+  gradient_noise_scale_cpu_offload  False.......................default
+  gradient_noise_scale_n_batches .. 5...........................default
+  gradient_predivide_factor ....... 1.0.........................default
+  head_size ....................... None........................default
+  hidden_dropout .................. 0.0.........................default
+  hostfile ........................ None........................default
+  hysteresis ...................... 2...........................default
+  include ......................... None........................default
+  init_method ..................... normal......................default
+  init_method_std ................. 0.02........................default
+  intermediate_size ............... None........................default
+  is_pipe_parallel ................ False.......................default
+  keep_last_n_checkpoints ......... None........................default
+  kl_div_beta ..................... 0.1.........................default
+  kl_impl ......................... mse.........................default
+  kto_beta ........................ 0.1.........................default
+  kto_desirable_weight ............ 1.0.........................default
+  kto_fp32 ........................ True........................default
+  kto_undesirable_weight .......... 1.0.........................default
+  launcher ........................ pdsh........................default
+  layernorm_epsilon ............... 1e-05.......................default
+  layernorm_fusion ................ False.......................default
+  lazy_mpu_init ................... False.......................default
+  local_rank ...................... None........................default
+  log_dir ......................... None........................default
+  log_grad_norm ................... False.......................default
+  log_grad_pct_zeros .............. False.......................default
+  log_gradient_noise_scale ........ False.......................default
+  log_interval .................... 100.........................default
+  log_optimizer_states ............ False.......................default
+  log_param_norm .................. False.......................default
+  loss_scale ...................... None........................default
+  loss_scale_window ............... 1000.0......................default
+  lr_decay_fraction ............... None........................default
+  lr_decay_iters .................. None........................default
+  lr_decay_style .................. linear......................default
+  make_vocab_size_divisible_by .... 128.........................default
+  mamba_causal_conv_fusion ........ False.......................default
+  mamba_inner_func_fusion ......... False.......................default
+  mamba_selective_fp32_params ..... True........................default
+  mamba_selective_scan_fusion ..... False.......................default
+  mamba_use_bias_in_conv .......... True........................default
+  mamba_use_bias_in_linears ....... False.......................default
+  master_addr ..................... None........................default
+  master_port ..................... 29500.......................default
+  memory_profiling ................ False.......................default
+  memory_profiling_path ........... None........................default
+  merge_file ...................... None........................default
+  min_lr .......................... 0.0.........................default
+  min_p ........................... 0.0.........................default
+  min_scale ....................... 1.0.........................default
+  minimum_tokens .................. 0...........................default
+  mlp_multiple_of ................. 1...........................default
+  mmap_warmup ..................... False.......................default
+  model_parallel_size ............. 1...........................default
+  moe_expert_interval ............. 1...........................default
+  moe_jitter_eps .................. None........................default
+  moe_lbl_in_fp32 ................. False.......................default
+  moe_num_experts ................. 1...........................default
+  moe_router_type ................. sinkhorn....................default
+  moe_top_k ....................... 1...........................default
+  mup_attn_temp ................... 1.0.........................default
+  mup_embedding_mult .............. 1.0.........................default
+  mup_init_scale .................. 1.0.........................default
+  mup_output_temp ................. 1.0.........................default
+  mup_rp_embedding_mult ........... 1.0.........................default
+  mup_width_scale ................. 2...........................default
+  neg_test_data_paths ............. None........................default
+  neg_test_label_data_paths ....... None........................default
+  neg_train_data_paths ............ None........................default
+  neg_train_label_data_paths ...... None........................default
+  neg_valid_data_paths ............ None........................default
+  neg_valid_label_data_paths ...... None........................default
+  no_save_optim ................... False.......................default
+  no_save_rng ..................... False.......................default
+  no_ssh_check .................... False.......................default
+  norm ............................ layernorm...................default
+  num_kv_heads .................... None........................default
+  num_nodes ....................... -1..........................default
+  num_samples ..................... 1...........................default
+  num_unique_layers ............... None........................default
+  num_workers ..................... 2...........................default
+  online_dataserver_ips ........... localhost...................default
+  online_dataserver_ports ......... 10000.......................default
+  onnx_safe ....................... False.......................default
+  opt_pos_emb_offset .............. 0...........................default
+  optimizer ....................... None........................default
+  output_layer_init_method ........ scaled_normal...............default
+  output_layer_parallelism ........ column......................default
+  override_lr_scheduler ........... False.......................default
+  pack_impl ....................... packed......................default
+  padded_vocab_size ............... None........................default
+  param_sharing_style ............. grouped.....................default
+  partition_activations ........... False.......................default
+  peak_theoretical_tflops ......... None........................default
+  pipe_parallel_size .............. 0...........................default
+  pipe_partition_method ........... type:transformer|mlp........default
+  pos_test_data_paths ............. None........................default
+  pos_test_label_data_paths ....... None........................default
+  pos_train_data_paths ............ None........................default
+  pos_train_label_data_paths ...... None........................default
+  pos_valid_data_paths ............ None........................default
+  pos_valid_label_data_paths ...... None........................default
+  precompute_model_name ........... None........................default
+  prescale_gradients .............. False.......................default
+  profile ......................... False.......................default
+  profile_backward ................ False.......................default
+  profile_step_start .............. 10..........................default
+  profile_step_stop ............... 12..........................default
+  prompt_end ...................... 
+...........................default
+  qk_norm ......................... None........................default
+  qk_norm_across_tp ............... False.......................default
+  qk_norm_separate ................ False.......................default
+  qk_norm_type .................... per_head....................default
+  rank ............................ None........................default
+  recompute ....................... False.......................default
+  reinforce_leave_one_out ......... False.......................default
+  rms_norm_epsilon ................ 1e-08.......................default
+  rmsnorm_fusion .................. False.......................default
+  rope_fusion ..................... False.......................default
+  rotary_emb_base ................. 10000.......................default
+  rotary_pct ...................... 1.0.........................default
+  rotary_save_freqs_buffer ........ False.......................default
+  rpe_max_distance ................ 128.........................default
+  rpe_num_buckets ................. 32..........................default
+  s3_chunk_size ................... 104857600...................default
+  s3_path ......................... None........................default
+  save ............................ None........................default
+  save_base_shapes ................ False.......................default
+  scaled_masked_softmax_fusion .... False.......................default
+  scaled_upper_triang_masked_softmax_fusion  False..............default
+  scalenorm_epsilon ............... 1e-08.......................default
+  scheduler ....................... None........................default
+  seed ............................ 1234........................default
+  sequence_parallel ............... False.......................default
+  serve_model_weights ............. False.......................default
+  short_seq_prob .................. 0.1.........................default
+  sliding_window_width ............ None........................default
+  soft_prompt_tuning .............. None........................default
+  sparse_gradients ................ False.......................default
+  split ........................... 969, 30, 1..................default
+  steps_per_print ................. 10..........................default
+  synchronize_each_layer .......... False.......................default
+  te_columnparallel ............... False.......................default
+  te_fp8_amax_compute_algo ........ most_recent.................default
+  te_fp8_amax_history_len ......... 1...........................default
+  te_fp8_format ................... hybrid......................default
+  te_fp8_margin ................... 0...........................default
+  te_fp8_mha ...................... False.......................default
+  te_fp8_wgrad .................... True........................default
+  te_layernorm_mlp ................ False.......................default
+  te_mha .......................... False.......................default
+  te_rowparallel .................. False.......................default
+  temperature ..................... 0.0.........................default
+  tensorboard ..................... None........................default
+  tensorboard_dir ................. None........................default
+  test_data_names ................. None........................default
+  test_data_paths ................. None........................default
+  test_data_weights ............... None........................default
+  test_label_data_paths ........... None........................default
+  test_reward_data_paths .......... None........................default
+  top_h ........................... 0.0.........................default
+  top_k ........................... 0...........................default
+  top_p ........................... 0.0.........................default
+  train_data_paths ................ None........................default
+  train_data_weights .............. None........................default
+  train_epochs .................... None........................default
+  train_impl ...................... normal......................default
+  train_label_data_paths .......... None........................default
+  train_reward_data_paths ......... None........................default
+  typical_p ....................... 1.0.........................default
+  use_bias_in_attn_linear ......... True........................default
+  use_bias_in_mlp ................. True........................default
+  use_bias_in_norms ............... True........................default
+  use_bnb_optimizer ............... False.......................default
+  use_checkpoint_lr_scheduler ..... False.......................default
+  use_comet ....................... None........................default
+  use_cpu_initialization .......... False.......................default
+  use_flashattn_swiglu ............ False.......................default
+  use_mup ......................... False.......................default
+  use_qk_norm ..................... False.......................default
+  use_shared_fs ................... True........................default
+  valid_data_names ................ None........................default
+  valid_data_paths ................ None........................default
+  valid_data_weights .............. None........................default
+  valid_label_data_paths .......... None........................default
+  valid_reward_data_paths ......... None........................default
+  vocab_file ...................... None........................default
+  wall_clock_breakdown ............ False.......................default
+  wandb ........................... None........................default
+  wandb_group ..................... None........................default
+  wandb_host ...................... https://api.wandb.ai........default
+  wandb_init_all_ranks ............ False.......................default
+  wandb_project ................... neox........................default
+  wandb_run_name .................. None........................default
+  wandb_team ...................... None........................default
+  warmup .......................... 0.01........................default
+  weight_by_num_documents ......... False.......................default
+  weight_decay .................... 0.1.........................default
+  weight_server_port .............. 6000........................default
+  weighted_sampler_alpha .......... 1.0.........................default
+  world_size ...................... None........................default
+  z_loss .......................... 0.0.........................default
+---------------- end of arguments ----------------
+NeoXArgs.configure_distributed_args() using world size: 1 and model-parallel size: 1 
+[2026-11-19 16:27:17,500] [WARNING] [runner.py:229:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-11-19 16:27:17,500] [INFO] [runner.py:623:main] cmd = /usr/bin/python3 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None generate.py --deepspeed_config eyJ0cmFpbl9iYXRjaF9zaXplIjogMSwgInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdSI6IDEsICJ6ZXJvX29wdGltaXphdGlvbiI6IHsic3RhZ2UiOiAwLCAiYWxsZ2F0aGVyX3BhcnRpdGlvbnMiOiB0cnVlLCAicmVkdWNlX3NjYXR0ZXIiOiB0cnVlLCAiYWxsZ2F0aGVyX2J1Y2tldF9zaXplIjogNTAwMDAwMDAwLCAib3ZlcmxhcF9jb21tIjogZmFsc2UsICJyZWR1Y2VfYnVja2V0X3NpemUiOiA1MDAwMDAwMDAsICJjb250aWd1b3VzX2dyYWRpZW50cyI6IGZhbHNlfX0= --megatron_config eyJudW1fZ3B1cyI6IDEsICJ0cmFpbl9iYXRjaF9zaXplIjogMSwgInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdSI6IDEsICJ6ZXJvX29wdGltaXphdGlvbiI6IHsic3RhZ2UiOiAwLCAiYWxsZ2F0aGVyX3BhcnRpdGlvbnMiOiB0cnVlLCAicmVkdWNlX3NjYXR0ZXIiOiB0cnVlLCAiYWxsZ2F0aGVyX2J1Y2tldF9zaXplIjogNTAwMDAwMDAwLCAib3ZlcmxhcF9jb21tIjogZmFsc2UsICJyZWR1Y2VfYnVja2V0X3NpemUiOiA1MDAwMDAwMDAsICJjb250aWd1b3VzX2dyYWRpZW50cyI6IGZhbHNlfSwgInByZWNpc2lvbiI6ICJmcDMyIiwgIm51bV9sYXllcnMiOiAyLCAiaGlkZGVuX3NpemUiOiA2NCwgIm51bV9hdHRlbnRpb25faGVhZHMiOiA0LCAic2VxX2xlbmd0aCI6IDMyLCAibWF4X3Bvc2l0aW9uX2VtYmVkZGluZ3MiOiAzMiwgInBvc19lbWIiOiAicm90YXJ5IiwgIm5vX3dlaWdodF90eWluZyI6IHRydWUsICJhdHRlbnRpb25fY29uZmlnIjogWyJnbG9iYWwiLCAiZ2xvYmFsIl0sICJzcGFyc2l0eV9jb25maWciOiB7fSwgIm9wdGltaXplcl90eXBlIjogIkFkYW0iLCAiemVyb19zdGFnZSI6IDAsICJsciI6IDAuMDAxLCAidG9rZW5pemVyX3R5cGUiOiAiQ2hhckxldmVsVG9rZW5pemVyIiwgImNvbmZpZ19maWxlcyI6IHsiZXBzaWxvbl9jdXRvZmYuanNvbiI6ICJ7XG4gIFwibnVtX2dwdXNcIjogMSxcbiAgXCJnbG9iYWxfbnVtX2dwdXNcIjogMSxcbiAgXCJwaXBlX3BhcmFsbGVsX3NpemVcIjogMCxcbiAgXCJtb2RlbF9wYXJhbGxlbF9zaXplXCI6IDEsXG4gIFwibnVtX2xheWVyc1wiOiAyLFxuICBcImhpZGRlbl9zaXplXCI6IDY0LFxuICBcIm51bV9hdHRlbnRpb25faGVhZHNcIjogNCxcbiAgXCJhdHRlbnRpb25fY29uZmlnXCI6IFtcbiAgICBbXG4gICAgICBbXG4gICAgICAgIFwiZ2xvYmFsXCJcbiAgICAgIF0sXG4gICAgICAyXG4gICAgXVxuICBdLFxuICBcInNlcV9sZW5ndGhcIjogMzIsXG4gIFwibWF4X3Bvc2l0aW9uX2VtYmVkZGluZ3NcIjogMzIsXG4gIFwicG9zX2VtYlwiOiBcInJvdGFyeVwiLFxuICBcIm5vX3dlaWdodF90eWluZ1wiOiB0cnVlLFxuICBcIm91dHB1dF9sYXllcl9wYXJhbGxlbGlzbVwiOiBcImNvbHVtblwiLFxuICBcIm5vcm1cIjogXCJsYXllcm5vcm1cIixcbiAgXCJwcmVjaXNpb25cIjogXCJmcDMyXCIsXG4gIFwiaGlkZGVuX2Ryb3BvdXRcIjogMC4wLFxuICBcImF0dGVudGlvbl9kcm9wb3V0XCI6IDAuMCxcbiAgXCJzY2FsZWRfdXBwZXJfdHJpYW5nX21hc2tlZF9zb2Z0bWF4X2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJzY2FsZWRfbWFza2VkX3NvZnRtYXhfZnVzaW9uXCI6IGZhbHNlLFxuICBcImJpYXNfZ2VsdV9mdXNpb25cIjogZmFsc2UsXG4gIFwiYmlhc19kcm9wb3V0X2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJyb3BlX2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJsYXllcm5vcm1fZnVzaW9uXCI6IGZhbHNlLFxuICBcImNoZWNrcG9pbnRfYWN0aXZhdGlvbnNcIjogZmFsc2UsXG4gIFwicGFydGl0aW9uX2FjdGl2YXRpb25zXCI6IGZhbHNlLFxuICBcImNoZWNrcG9pbnRfdmFsaWRhdGlvbl93aXRoX2ZvcndhcmRfcGFzc1wiOiBmYWxzZSxcbiAgXCJ0b2tlbml6ZXJfdHlwZVwiOiBcIkNoYXJMZXZlbFRva2VuaXplclwiLFxuICBcInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdVwiOiAxLFxuICBcImdyYWRpZW50X2FjY3VtdWxhdGlvbl9zdGVwc1wiOiAxLFxuICBcInRyYWluX2l0ZXJzXCI6IDEsXG4gIFwibm9fbG9hZF9vcHRpbVwiOiB0cnVlLFxuICBcIm5vX2xvYWRfcm5nXCI6IHRydWUsXG4gIFwidXNlX3dhbmRiXCI6IGZhbHNlLFxuICBcInNlZWRcIjogMTIzNCxcbiAgXCJsb2FkXCI6IFwiL3dvcmtzcGFjZS9ncHQtbmVveC9sb2dzL0luZmVyZW5jZV9UZXN0aW5nL3J1bnMvMjAyNjExMTktMTcyMDQ3LWdwdTEtcmV0cnkxL2NoZWNrcG9pbnRcIixcbiAgXCJpdGVyYXRpb25cIjogMSxcbiAgXCJ0ZXh0X2dlbl90eXBlXCI6IFwiaW5wdXQtZmlsZVwiLFxuICBcInByb21wdF9lbmRcIjogXCJcXG5cIixcbiAgXCJzYW1wbGVfaW5wdXRfZmlsZVwiOiBcIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9wcm9tcHQudHh0XCIsXG4gIFwic2FtcGxlX291dHB1dF9maWxlXCI6IFwiL3dvcmtzcGFjZS9ncHQtbmVveC9sb2dzL0luZmVyZW5jZV9UZXN0aW5nL3J1bnMvMjAyNjExMTktMTcyMDQ3LWdwdTEtcmV0cnkxL2Vwc2lsb25fY3V0b2ZmLmpzb25sXCIsXG4gIFwibWF4aW11bV90b2tlbnNcIjogOCxcbiAgXCJyZXR1cm5fbG9naXRzXCI6IHRydWUsXG4gIFwiZXBzaWxvbl9jdXRvZmZcIjogMC4xNFxufVxuIn0sICJsb2FkIjogIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9ydW5zLzIwMjYxMTE5LTE3MjA0Ny1ncHUxLXJldHJ5MS9jaGVja3BvaW50IiwgIm5vX2xvYWRfb3B0aW0iOiB0cnVlLCAibm9fbG9hZF9ybmciOiB0cnVlLCAiYmF0Y2hfc2l6ZSI6IDEsICJ0cmFpbl9pdGVycyI6IDEsICJkeW5hbWljX2xvc3Nfc2NhbGUiOiB0cnVlLCAid29ybGRfc2l6ZSI6IDEsICJ1c2Vfd2FuZGIiOiBmYWxzZSwgInRleHRfZ2VuX3R5cGUiOiAiaW5wdXQtZmlsZSIsICJlcHNpbG9uX2N1dG9mZiI6IDAuMTQsICJyZXR1cm5fbG9naXRzIjogdHJ1ZSwgIm1heGltdW1fdG9rZW5zIjogOCwgInNhbXBsZV9pbnB1dF9maWxlIjogIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9wcm9tcHQudHh0IiwgInNhbXBsZV9vdXRwdXRfZmlsZSI6ICIvd29ya3NwYWNlL2dwdC1uZW94L2xvZ3MvSW5mZXJlbmNlX1Rlc3RpbmcvcnVucy8yMDI2MTExOS0xNzIwNDctZ3B1MS1yZXRyeTEvZXBzaWxvbl9jdXRvZmYuanNvbmwiLCAibG9jYWxfcmFuayI6IDAsICJyYW5rIjogMCwgInVzZXJfc2NyaXB0IjogImdlbmVyYXRlLnB5IiwgIml0ZXJhdGlvbiI6IDEsICJnbG9iYWxfbnVtX2dwdXMiOiAxfQ==
+[2026-11-19 16:27:19,142] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2026-11-19 16:27:23,047] [INFO] [launch.py:139:main] 0 NCCL_VERSION=2.19.stable.20231214+cuda12.3
+[2026-11-19 16:27:23,047] [INFO] [launch.py:146:main] WORLD INFO DICT: {'localhost': [0]}
+[2026-11-19 16:27:23,047] [INFO] [launch.py:152:main] nnodes=1, num_local_procs=1, node_rank=0
+[2026-11-19 16:27:23,047] [INFO] [launch.py:163:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0]})
+[2026-11-19 16:27:23,047] [INFO] [launch.py:164:main] dist_world_size=1
+[2026-11-19 16:27:23,047] [INFO] [launch.py:168:main] Setting CUDA_VISIBLE_DEVICES=0
+[2026-11-19 16:27:23,052] [INFO] [launch.py:256:main] process 5674 spawned with command: ['/usr/bin/python3', '-u', 'generate.py', '--local_rank=0', '--deepspeed_config', 'eyJ0cmFpbl9iYXRjaF9zaXplIjogMSwgInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdSI6IDEsICJ6ZXJvX29wdGltaXphdGlvbiI6IHsic3RhZ2UiOiAwLCAiYWxsZ2F0aGVyX3BhcnRpdGlvbnMiOiB0cnVlLCAicmVkdWNlX3NjYXR0ZXIiOiB0cnVlLCAiYWxsZ2F0aGVyX2J1Y2tldF9zaXplIjogNTAwMDAwMDAwLCAib3ZlcmxhcF9jb21tIjogZmFsc2UsICJyZWR1Y2VfYnVja2V0X3NpemUiOiA1MDAwMDAwMDAsICJjb250aWd1b3VzX2dyYWRpZW50cyI6IGZhbHNlfX0=', '--megatron_config', 'eyJudW1fZ3B1cyI6IDEsICJ0cmFpbl9iYXRjaF9zaXplIjogMSwgInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdSI6IDEsICJ6ZXJvX29wdGltaXphdGlvbiI6IHsic3RhZ2UiOiAwLCAiYWxsZ2F0aGVyX3BhcnRpdGlvbnMiOiB0cnVlLCAicmVkdWNlX3NjYXR0ZXIiOiB0cnVlLCAiYWxsZ2F0aGVyX2J1Y2tldF9zaXplIjogNTAwMDAwMDAwLCAib3ZlcmxhcF9jb21tIjogZmFsc2UsICJyZWR1Y2VfYnVja2V0X3NpemUiOiA1MDAwMDAwMDAsICJjb250aWd1b3VzX2dyYWRpZW50cyI6IGZhbHNlfSwgInByZWNpc2lvbiI6ICJmcDMyIiwgIm51bV9sYXllcnMiOiAyLCAiaGlkZGVuX3NpemUiOiA2NCwgIm51bV9hdHRlbnRpb25faGVhZHMiOiA0LCAic2VxX2xlbmd0aCI6IDMyLCAibWF4X3Bvc2l0aW9uX2VtYmVkZGluZ3MiOiAzMiwgInBvc19lbWIiOiAicm90YXJ5IiwgIm5vX3dlaWdodF90eWluZyI6IHRydWUsICJhdHRlbnRpb25fY29uZmlnIjogWyJnbG9iYWwiLCAiZ2xvYmFsIl0sICJzcGFyc2l0eV9jb25maWciOiB7fSwgIm9wdGltaXplcl90eXBlIjogIkFkYW0iLCAiemVyb19zdGFnZSI6IDAsICJsciI6IDAuMDAxLCAidG9rZW5pemVyX3R5cGUiOiAiQ2hhckxldmVsVG9rZW5pemVyIiwgImNvbmZpZ19maWxlcyI6IHsiZXBzaWxvbl9jdXRvZmYuanNvbiI6ICJ7XG4gIFwibnVtX2dwdXNcIjogMSxcbiAgXCJnbG9iYWxfbnVtX2dwdXNcIjogMSxcbiAgXCJwaXBlX3BhcmFsbGVsX3NpemVcIjogMCxcbiAgXCJtb2RlbF9wYXJhbGxlbF9zaXplXCI6IDEsXG4gIFwibnVtX2xheWVyc1wiOiAyLFxuICBcImhpZGRlbl9zaXplXCI6IDY0LFxuICBcIm51bV9hdHRlbnRpb25faGVhZHNcIjogNCxcbiAgXCJhdHRlbnRpb25fY29uZmlnXCI6IFtcbiAgICBbXG4gICAgICBbXG4gICAgICAgIFwiZ2xvYmFsXCJcbiAgICAgIF0sXG4gICAgICAyXG4gICAgXVxuICBdLFxuICBcInNlcV9sZW5ndGhcIjogMzIsXG4gIFwibWF4X3Bvc2l0aW9uX2VtYmVkZGluZ3NcIjogMzIsXG4gIFwicG9zX2VtYlwiOiBcInJvdGFyeVwiLFxuICBcIm5vX3dlaWdodF90eWluZ1wiOiB0cnVlLFxuICBcIm91dHB1dF9sYXllcl9wYXJhbGxlbGlzbVwiOiBcImNvbHVtblwiLFxuICBcIm5vcm1cIjogXCJsYXllcm5vcm1cIixcbiAgXCJwcmVjaXNpb25cIjogXCJmcDMyXCIsXG4gIFwiaGlkZGVuX2Ryb3BvdXRcIjogMC4wLFxuICBcImF0dGVudGlvbl9kcm9wb3V0XCI6IDAuMCxcbiAgXCJzY2FsZWRfdXBwZXJfdHJpYW5nX21hc2tlZF9zb2Z0bWF4X2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJzY2FsZWRfbWFza2VkX3NvZnRtYXhfZnVzaW9uXCI6IGZhbHNlLFxuICBcImJpYXNfZ2VsdV9mdXNpb25cIjogZmFsc2UsXG4gIFwiYmlhc19kcm9wb3V0X2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJyb3BlX2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJsYXllcm5vcm1fZnVzaW9uXCI6IGZhbHNlLFxuICBcImNoZWNrcG9pbnRfYWN0aXZhdGlvbnNcIjogZmFsc2UsXG4gIFwicGFydGl0aW9uX2FjdGl2YXRpb25zXCI6IGZhbHNlLFxuICBcImNoZWNrcG9pbnRfdmFsaWRhdGlvbl93aXRoX2ZvcndhcmRfcGFzc1wiOiBmYWxzZSxcbiAgXCJ0b2tlbml6ZXJfdHlwZVwiOiBcIkNoYXJMZXZlbFRva2VuaXplclwiLFxuICBcInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdVwiOiAxLFxuICBcImdyYWRpZW50X2FjY3VtdWxhdGlvbl9zdGVwc1wiOiAxLFxuICBcInRyYWluX2l0ZXJzXCI6IDEsXG4gIFwibm9fbG9hZF9vcHRpbVwiOiB0cnVlLFxuICBcIm5vX2xvYWRfcm5nXCI6IHRydWUsXG4gIFwidXNlX3dhbmRiXCI6IGZhbHNlLFxuICBcInNlZWRcIjogMTIzNCxcbiAgXCJsb2FkXCI6IFwiL3dvcmtzcGFjZS9ncHQtbmVveC9sb2dzL0luZmVyZW5jZV9UZXN0aW5nL3J1bnMvMjAyNjExMTktMTcyMDQ3LWdwdTEtcmV0cnkxL2NoZWNrcG9pbnRcIixcbiAgXCJpdGVyYXRpb25cIjogMSxcbiAgXCJ0ZXh0X2dlbl90eXBlXCI6IFwiaW5wdXQtZmlsZVwiLFxuICBcInByb21wdF9lbmRcIjogXCJcXG5cIixcbiAgXCJzYW1wbGVfaW5wdXRfZmlsZVwiOiBcIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9wcm9tcHQudHh0XCIsXG4gIFwic2FtcGxlX291dHB1dF9maWxlXCI6IFwiL3dvcmtzcGFjZS9ncHQtbmVveC9sb2dzL0luZmVyZW5jZV9UZXN0aW5nL3J1bnMvMjAyNjExMTktMTcyMDQ3LWdwdTEtcmV0cnkxL2Vwc2lsb25fY3V0b2ZmLmpzb25sXCIsXG4gIFwibWF4aW11bV90b2tlbnNcIjogOCxcbiAgXCJyZXR1cm5fbG9naXRzXCI6IHRydWUsXG4gIFwiZXBzaWxvbl9jdXRvZmZcIjogMC4xNFxufVxuIn0sICJsb2FkIjogIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9ydW5zLzIwMjYxMTE5LTE3MjA0Ny1ncHUxLXJldHJ5MS9jaGVja3BvaW50IiwgIm5vX2xvYWRfb3B0aW0iOiB0cnVlLCAibm9fbG9hZF9ybmciOiB0cnVlLCAiYmF0Y2hfc2l6ZSI6IDEsICJ0cmFpbl9pdGVycyI6IDEsICJkeW5hbWljX2xvc3Nfc2NhbGUiOiB0cnVlLCAid29ybGRfc2l6ZSI6IDEsICJ1c2Vfd2FuZGIiOiBmYWxzZSwgInRleHRfZ2VuX3R5cGUiOiAiaW5wdXQtZmlsZSIsICJlcHNpbG9uX2N1dG9mZiI6IDAuMTQsICJyZXR1cm5fbG9naXRzIjogdHJ1ZSwgIm1heGltdW1fdG9rZW5zIjogOCwgInNhbXBsZV9pbnB1dF9maWxlIjogIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9wcm9tcHQudHh0IiwgInNhbXBsZV9vdXRwdXRfZmlsZSI6ICIvd29ya3NwYWNlL2dwdC1uZW94L2xvZ3MvSW5mZXJlbmNlX1Rlc3RpbmcvcnVucy8yMDI2MTExOS0xNzIwNDctZ3B1MS1yZXRyeTEvZXBzaWxvbl9jdXRvZmYuanNvbmwiLCAibG9jYWxfcmFuayI6IDAsICJyYW5rIjogMCwgInVzZXJfc2NyaXB0IjogImdlbmVyYXRlLnB5IiwgIml0ZXJhdGlvbiI6IDEsICJnbG9iYWxfbnVtX2dwdXMiOiAxfQ==']
+/workspace/gpt-neox/megatron/neox_arguments/arguments.py:1231: SyntaxWarning: assertion is always true, perhaps remove parentheses?
+  assert (
+/workspace/gpt-neox/megatron/neox_arguments/arguments.py:1240: SyntaxWarning: assertion is always true, perhaps remove parentheses?
+  assert (
+[2026-11-19 16:27:24,803] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Unable to import Mamba kernels. Install them from our requirements/requirements-mamba.txt,     or directly from https://github.com/state-spaces/mamba
+For s3 checkpointing, please install boto3 either using requirements/requirements-s3.txt or https://github.com/boto/boto3
+For s3 checkpointing, please install hf_transfer either using requirements/requirements-s3.txt or https://github.com/huggingface/hf_transfer
+NeoXArgs.configure_distributed_args() using world size: 1 and model-parallel size: 1 
+> building CharLevelTokenizer tokenizer ...
+ > padded vocab (size: 512) with 0 dummy tokens (new size: 512)
+> initializing torch distributed ...
+[2026-11-19 16:27:30,267] [INFO] [comm.py:658:init_distributed] cdb=None
+[2026-11-19 16:27:30,267] [INFO] [comm.py:689:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+> initializing model parallel with size 1
+MPU DP: [0]
+MPU PP: [0]
+MPU MP: [0]
+[2026-11-19 16:27:30,274] [INFO] [checkpointing.py:1125:configure] Activation Checkpointing Information
+[2026-11-19 16:27:30,274] [INFO] [checkpointing.py:1126:configure] ----Partition Activations False, CPU CHECKPOINTING False
+[2026-11-19 16:27:30,274] [INFO] [checkpointing.py:1127:configure] ----contiguous Memory Checkpointing False with 2 total layers
+[2026-11-19 16:27:30,274] [INFO] [checkpointing.py:1128:configure] ----Synchronization False
+[2026-11-19 16:27:30,274] [INFO] [checkpointing.py:1129:configure] ----Profiling time in checkpointing False
+> setting random seeds to 1234 ...
+[2026-11-19 16:27:30,275] [INFO] [checkpointing.py:229:model_parallel_cuda_manual_seed] > initializing model parallel cuda seeds on global rank 0, model parallel rank 0, and data parallel rank 0 with model parallel seed: 3952 and data parallel seed: 1234
+make: Entering directory '/workspace/gpt-neox/megatron/data'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/workspace/gpt-neox/megatron/data'
+building GPT2 model ...
+SEED_LAYERS=False BASE_SEED=1234 SEED_FN=None
+Using topology: {ProcessCoord(pipe=0, data=0, model=0): 0}
+[2026-11-19 16:27:30,585] [INFO] [module.py:398:_partition_layers] Partitioning pipeline stages with method type:transformer|mlp
+stage=0 layers=7
+     0: EmbeddingPipe
+     1: _pre_transformer_block
+     2: ParallelTransformerLayerPipe
+     3: ParallelTransformerLayerPipe
+     4: _post_transformer_block
+     5: NormPipe
+     6: ParallelLinearPipe
+  loss: partial
+Configuring Optimizer type: adam with params: {'lr': 0.0}
+> learning rate decay style: linear
+DeepSpeed is enabled.
+[2026-11-19 16:27:30,749] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed info: version=0.16.5+91d1c55b, git-hash=91d1c55b, git-branch=HEAD
+[2026-11-19 16:27:30,749] [INFO] [config.py:734:__init__] Config mesh_device None world_size = 1
+[2026-11-19 16:27:30,963] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed Flops Profiler Enabled: False
+[2026-11-19 16:27:30,964] [INFO] [logging.py:107:log_dist] [Rank 0] Using client Optimizer as basic optimizer
+[2026-11-19 16:27:30,964] [INFO] [logging.py:107:log_dist] [Rank 0] Removing param_group that has no 'params' in the basic Optimizer
+[2026-11-19 16:27:30,965] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed Basic Optimizer = FusedAdam
+[2026-11-19 16:27:30,965] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed Final Optimizer = FusedAdam
+[2026-11-19 16:27:30,965] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed using client LR scheduler
+[2026-11-19 16:27:30,965] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed LR Scheduler = <megatron.learning_rates.AnnealingLR object at 0x78a1b557da80>
+[2026-11-19 16:27:30,965] [INFO] [logging.py:107:log_dist] [Rank 0] step=0, skipped=0, lr=[0.1], mom=[(0.9, 0.999)]
+[2026-11-19 16:27:30,966] [INFO] [config.py:1001:print] DeepSpeedEngine configuration:
+[2026-11-19 16:27:30,967] [INFO] [config.py:1005:print]   activation_checkpointing_config  {
+    "partition_activations": false, 
+    "contiguous_memory_optimization": false, 
+    "cpu_checkpointing": false, 
+    "number_checkpoints": null, 
+    "synchronize_checkpoint_boundary": false, 
+    "profile": false
+}
+[2026-11-19 16:27:30,967] [INFO] [config.py:1005:print]   aio_config ................... {'block_size': 1048576, 'queue_depth': 8, 'intra_op_parallelism': 1, 'single_submit': False, 'overlap_events': True, 'use_gds': False}
+[2026-11-19 16:27:30,968] [INFO] [config.py:1005:print]   amp_enabled .................. False
+[2026-11-19 16:27:30,968] [INFO] [config.py:1005:print]   amp_params ................... False
+[2026-11-19 16:27:30,969] [INFO] [config.py:1005:print]   autotuning_config ............ {
+    "enabled": false, 
+    "start_step": null, 
+    "end_step": null, 
+    "metric_path": null, 
+    "arg_mappings": null, 
+    "metric": "throughput", 
+    "model_info": null, 
+    "results_dir": "autotuning_results", 
+    "exps_dir": "autotuning_exps", 
+    "overwrite": true, 
+    "fast": true, 
+    "start_profile_step": 3, 
+    "end_profile_step": 5, 
+    "tuner_type": "gridsearch", 
+    "tuner_early_stopping": 5, 
+    "tuner_num_trials": 50, 
+    "model_info_path": null, 
+    "mp_size": 1, 
+    "max_train_batch_size": null, 
+    "min_train_batch_size": 1, 
+    "max_train_micro_batch_size_per_gpu": 1.024000e+03, 
+    "min_train_micro_batch_size_per_gpu": 1, 
+    "num_tuning_micro_batch_sizes": 3
+}
+[2026-11-19 16:27:30,969] [INFO] [config.py:1005:print]   bfloat16_enabled ............. False
+[2026-11-19 16:27:30,969] [INFO] [config.py:1005:print]   bfloat16_immediate_grad_update  False
+[2026-11-19 16:27:30,969] [INFO] [config.py:1005:print]   checkpoint_parallel_write_pipeline  False
+[2026-11-19 16:27:30,969] [INFO] [config.py:1005:print]   checkpoint_tag_validation_enabled  True
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   checkpoint_tag_validation_fail  False
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   comms_config ................. <deepspeed.comm.config.DeepSpeedCommsConfig object at 0x78a00a24e6b0>
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   communication_data_type ...... None
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   compression_config ........... {'weight_quantization': {'shared_parameters': {'enabled': False, 'quantizer_kernel': False, 'schedule_offset': 0, 'quantize_groups': 1, 'quantize_verbose': False, 'quantization_type': 'symmetric', 'quantize_weight_in_forward': False, 'rounding': 'nearest', 'fp16_mixed_quantize': False, 'quantize_change_ratio': 0.001}, 'different_groups': {}}, 'activation_quantization': {'shared_parameters': {'enabled': False, 'quantization_type': 'symmetric', 'range_calibration': 'dynamic', 'schedule_offset': 1000}, 'different_groups': {}}, 'sparse_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'row_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'head_pruning': {'shared_parameters': {'enabled': False, 'method': 'topk', 'schedule_offset': 1000}, 'different_groups': {}}, 'channel_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'layer_reduction': {'enabled': False}}
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   curriculum_enabled_legacy .... False
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   curriculum_params_legacy ..... False
+[2026-11-19 16:27:30,970] [INFO] [config.py:1005:print]   data_efficiency_config ....... {'enabled': False, 'seed': 1234, 'data_sampling': {'enabled': False, 'num_epochs': 1000, 'num_workers': 0, 'curriculum_learning': {'enabled': False}}, 'data_routing': {'enabled': False, 'random_ltd': {'enabled': False, 'layer_token_lr_schedule': {'enabled': False}}}}
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   data_efficiency_enabled ...... False
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   dataloader_drop_last ......... False
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   disable_allgather ............ False
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   dump_state ................... False
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   dynamic_loss_scale_args ...... None
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_enabled ........... False
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_gas_boundary_resolution  1
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_layer_name ........ bert.encoder.layer
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_layer_num ......... 0
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_max_iter .......... 100
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_stability ......... 1e-06
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_tol ............... 0.01
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   eigenvalue_verbose ........... False
+[2026-11-19 16:27:30,971] [INFO] [config.py:1005:print]   elasticity_enabled ........... False
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   flops_profiler_config ........ {
+    "enabled": false, 
+    "recompute_fwd_factor": 0.0, 
+    "profile_step": 1, 
+    "module_depth": -1, 
+    "top_modules": 1, 
+    "detailed": true, 
+    "output_file": null
+}
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   fp16_auto_cast ............... None
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   fp16_enabled ................. False
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   fp16_master_weights_and_gradients  False
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   global_rank .................. 0
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   grad_accum_dtype ............. None
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   gradient_accumulation_steps .. 1
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   gradient_clipping ............ 0.0
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   gradient_predivide_factor .... 1.0
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   graph_harvesting ............. False
+[2026-11-19 16:27:30,972] [INFO] [config.py:1005:print]   hybrid_engine ................ enabled=False max_out_tokens=512 inference_tp_size=1 release_inference_cache=False pin_parameters=True tp_gather_partition_size=8
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   initial_dynamic_scale ........ 65536
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   load_universal_checkpoint .... False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   loss_scale ................... 0
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   memory_breakdown ............. False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   mics_hierarchial_params_gather  False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   mics_shard_size .............. -1
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   monitor_config ............... tensorboard=TensorBoardConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') comet=CometConfig(enabled=False, samples_log_interval=100, project=None, workspace=None, api_key=None, experiment_name=None, experiment_key=None, online=None, mode=None) wandb=WandbConfig(enabled=False, group=None, team=None, project='deepspeed') csv_monitor=CSVConfig(enabled=False, output_path='', job_name='DeepSpeedJobName')
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   nebula_config ................ {
+    "enabled": false, 
+    "persistent_storage_path": null, 
+    "persistent_time_interval": 100, 
+    "num_of_version_in_retention": 2, 
+    "enable_nebula_load": true, 
+    "load_path": null
+}
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   optimizer_legacy_fusion ...... False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   optimizer_name ............... None
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   optimizer_params ............. None
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   pipeline ..................... {'stages': 'auto', 'partition': 'best', 'seed_layers': False, 'activation_checkpoint_interval': 0, 'pipe_partitioned': True, 'grad_partitioned': True}
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   pld_enabled .................. False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   pld_params ................... False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   prescale_gradients ........... False
+[2026-11-19 16:27:30,973] [INFO] [config.py:1005:print]   scheduler_name ............... None
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   scheduler_params ............. None
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   seq_parallel_communication_data_type  torch.float32
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   sparse_attention ............. None
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   sparse_gradients_enabled ..... False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   steps_per_print .............. 10
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   tensor_parallel_config ....... dtype=torch.float16 autotp_size=0 tensor_parallel=TPConfig(tp_size=1, tp_grain_size=1, mpu=None, tp_group=None) injection_policy_tuple=None keep_module_on_host=False replace_with_kernel_inject=False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   timers_config ................ enabled=True synchronized=True
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   train_batch_size ............. 1
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   train_micro_batch_size_per_gpu  1
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   use_data_before_expert_parallel_  False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   use_node_local_storage ....... False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   wall_clock_breakdown ......... False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   weight_quantization_config ... None
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   world_size ................... 1
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   zero_allow_untested_optimizer  False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   zero_config .................. stage=0 contiguous_gradients=False reduce_scatter=True reduce_bucket_size=500000000 use_multi_rank_bucket_allreduce=True allgather_partitions=True allgather_bucket_size=500000000 overlap_comm=False load_from_fp32_weights=True elastic_checkpoint=False offload_param=None offload_optimizer=None sub_group_size=1000000000 cpu_offload_param=None cpu_offload_use_pin_memory=None cpu_offload=None prefetch_bucket_size=50000000 param_persistence_threshold=100000 model_persistence_threshold=9223372036854775807 max_live_parameters=1000000000 max_reuse_distance=1000000000 gather_16bit_weights_on_model_save=False module_granularity_threshold=0 use_all_reduce_for_fetch_params=False stage3_gather_fp16_weights_on_model_save=False ignore_unused_parameters=True legacy_stage1=False round_robin_gradients=False zero_hpz_partition_size=1 zero_quantized_weights=False zero_quantized_nontrainable_weights=False zero_quantized_gradients=False zeropp_loco_param=None mics_shard_size=-1 mics_hierarchical_params_gather=False memory_efficient_linear=True pipeline_loading_checkpoint=False override_module_apply=True log_trace_cache_warnings=False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   zero_enabled ................. False
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   zero_force_ds_cpu_optimizer .. True
+[2026-11-19 16:27:30,974] [INFO] [config.py:1005:print]   zero_optimization_stage ...... 0
+[2026-11-19 16:27:30,975] [INFO] [config.py:991:print_user_config]   json = {
+    "train_batch_size": 1, 
+    "train_micro_batch_size_per_gpu": 1, 
+    "optimizer": {
+        "params": {
+            "lr": 0.0
+        }
+    }, 
+    "zero_optimization": {
+        "stage": 0, 
+        "allgather_partitions": true, 
+        "reduce_scatter": true, 
+        "allgather_bucket_size": 5.000000e+08, 
+        "overlap_comm": false, 
+        "reduce_bucket_size": 5.000000e+08, 
+        "contiguous_gradients": false
+    }
+}
+ > number of parameters on model parallel rank 0: 165632
+ > total params: 165,632
+[2026-11-19 16:27:31,055] [INFO] [torch_checkpoint_engine.py:27:load] [Torch] Loading checkpoint from /workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/checkpoint/global_step1/mp_rank_00_model_states.pt...
+[2026-11-19 16:27:31,068] [INFO] [torch_checkpoint_engine.py:29:load] [Torch] Loaded checkpoint from /workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/checkpoint/global_step1/mp_rank_00_model_states.pt.
+[2026-11-19 16:27:31,069] [INFO] [torch_checkpoint_engine.py:27:load] [Torch] Loading checkpoint from /workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/checkpoint/global_step1/mp_rank_00_model_states.pt...
+[2026-11-19 16:27:31,074] [INFO] [torch_checkpoint_engine.py:29:load] [Torch] Loaded checkpoint from /workspace/gpt-neox/logs/Inference_Testing/runs/20261119-172047-gpu1-retry1/checkpoint/global_step1/mp_rank_00_model_states.pt.
+Traceback (most recent call last):
+  File "/workspace/gpt-neox/generate.py", line 114, in <module>
+    main()
+  File "/workspace/gpt-neox/generate.py", line 34, in main
+    model, neox_args = setup_for_inference_or_eval(
+  File "/workspace/gpt-neox/megatron/utils.py", line 461, in setup_for_inference_or_eval
+    model, _, _, _ = setup_model_and_optimizer(
+  File "/workspace/gpt-neox/megatron/training.py", line 1269, in setup_model_and_optimizer
+    neox_args.iteration = load_checkpoint(
+  File "/workspace/gpt-neox/megatron/checkpointing.py", line 390, in load_checkpoint
+    checkpoint_name, state_dict = model.load_checkpoint(
+  File "/usr/local/lib/python3.10/dist-packages/deepspeed/runtime/engine.py", line 2938, in load_checkpoint
+    load_path, client_states = self._load_checkpoint(load_dir,
+  File "/usr/local/lib/python3.10/dist-packages/deepspeed/runtime/engine.py", line 3032, in _load_checkpoint
+    self.optimizer.refresh_fp32_params()
+AttributeError: 'FusedAdam' object has no attribute 'refresh_fp32_params'
+[2026-11-19 16:27:34,064] [INFO] [launch.py:319:sigkill_handler] Killing subprocess 5674
+[2026-11-19 16:27:34,064] [ERROR] [launch.py:325:sigkill_handler] ['/usr/bin/python3', '-u', 'generate.py', '--local_rank=0', '--deepspeed_config', 'eyJ0cmFpbl9iYXRjaF9zaXplIjogMSwgInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdSI6IDEsICJ6ZXJvX29wdGltaXphdGlvbiI6IHsic3RhZ2UiOiAwLCAiYWxsZ2F0aGVyX3BhcnRpdGlvbnMiOiB0cnVlLCAicmVkdWNlX3NjYXR0ZXIiOiB0cnVlLCAiYWxsZ2F0aGVyX2J1Y2tldF9zaXplIjogNTAwMDAwMDAwLCAib3ZlcmxhcF9jb21tIjogZmFsc2UsICJyZWR1Y2VfYnVja2V0X3NpemUiOiA1MDAwMDAwMDAsICJjb250aWd1b3VzX2dyYWRpZW50cyI6IGZhbHNlfX0=', '--megatron_config', 'eyJudW1fZ3B1cyI6IDEsICJ0cmFpbl9iYXRjaF9zaXplIjogMSwgInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdSI6IDEsICJ6ZXJvX29wdGltaXphdGlvbiI6IHsic3RhZ2UiOiAwLCAiYWxsZ2F0aGVyX3BhcnRpdGlvbnMiOiB0cnVlLCAicmVkdWNlX3NjYXR0ZXIiOiB0cnVlLCAiYWxsZ2F0aGVyX2J1Y2tldF9zaXplIjogNTAwMDAwMDAwLCAib3ZlcmxhcF9jb21tIjogZmFsc2UsICJyZWR1Y2VfYnVja2V0X3NpemUiOiA1MDAwMDAwMDAsICJjb250aWd1b3VzX2dyYWRpZW50cyI6IGZhbHNlfSwgInByZWNpc2lvbiI6ICJmcDMyIiwgIm51bV9sYXllcnMiOiAyLCAiaGlkZGVuX3NpemUiOiA2NCwgIm51bV9hdHRlbnRpb25faGVhZHMiOiA0LCAic2VxX2xlbmd0aCI6IDMyLCAibWF4X3Bvc2l0aW9uX2VtYmVkZGluZ3MiOiAzMiwgInBvc19lbWIiOiAicm90YXJ5IiwgIm5vX3dlaWdodF90eWluZyI6IHRydWUsICJhdHRlbnRpb25fY29uZmlnIjogWyJnbG9iYWwiLCAiZ2xvYmFsIl0sICJzcGFyc2l0eV9jb25maWciOiB7fSwgIm9wdGltaXplcl90eXBlIjogIkFkYW0iLCAiemVyb19zdGFnZSI6IDAsICJsciI6IDAuMDAxLCAidG9rZW5pemVyX3R5cGUiOiAiQ2hhckxldmVsVG9rZW5pemVyIiwgImNvbmZpZ19maWxlcyI6IHsiZXBzaWxvbl9jdXRvZmYuanNvbiI6ICJ7XG4gIFwibnVtX2dwdXNcIjogMSxcbiAgXCJnbG9iYWxfbnVtX2dwdXNcIjogMSxcbiAgXCJwaXBlX3BhcmFsbGVsX3NpemVcIjogMCxcbiAgXCJtb2RlbF9wYXJhbGxlbF9zaXplXCI6IDEsXG4gIFwibnVtX2xheWVyc1wiOiAyLFxuICBcImhpZGRlbl9zaXplXCI6IDY0LFxuICBcIm51bV9hdHRlbnRpb25faGVhZHNcIjogNCxcbiAgXCJhdHRlbnRpb25fY29uZmlnXCI6IFtcbiAgICBbXG4gICAgICBbXG4gICAgICAgIFwiZ2xvYmFsXCJcbiAgICAgIF0sXG4gICAgICAyXG4gICAgXVxuICBdLFxuICBcInNlcV9sZW5ndGhcIjogMzIsXG4gIFwibWF4X3Bvc2l0aW9uX2VtYmVkZGluZ3NcIjogMzIsXG4gIFwicG9zX2VtYlwiOiBcInJvdGFyeVwiLFxuICBcIm5vX3dlaWdodF90eWluZ1wiOiB0cnVlLFxuICBcIm91dHB1dF9sYXllcl9wYXJhbGxlbGlzbVwiOiBcImNvbHVtblwiLFxuICBcIm5vcm1cIjogXCJsYXllcm5vcm1cIixcbiAgXCJwcmVjaXNpb25cIjogXCJmcDMyXCIsXG4gIFwiaGlkZGVuX2Ryb3BvdXRcIjogMC4wLFxuICBcImF0dGVudGlvbl9kcm9wb3V0XCI6IDAuMCxcbiAgXCJzY2FsZWRfdXBwZXJfdHJpYW5nX21hc2tlZF9zb2Z0bWF4X2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJzY2FsZWRfbWFza2VkX3NvZnRtYXhfZnVzaW9uXCI6IGZhbHNlLFxuICBcImJpYXNfZ2VsdV9mdXNpb25cIjogZmFsc2UsXG4gIFwiYmlhc19kcm9wb3V0X2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJyb3BlX2Z1c2lvblwiOiBmYWxzZSxcbiAgXCJsYXllcm5vcm1fZnVzaW9uXCI6IGZhbHNlLFxuICBcImNoZWNrcG9pbnRfYWN0aXZhdGlvbnNcIjogZmFsc2UsXG4gIFwicGFydGl0aW9uX2FjdGl2YXRpb25zXCI6IGZhbHNlLFxuICBcImNoZWNrcG9pbnRfdmFsaWRhdGlvbl93aXRoX2ZvcndhcmRfcGFzc1wiOiBmYWxzZSxcbiAgXCJ0b2tlbml6ZXJfdHlwZVwiOiBcIkNoYXJMZXZlbFRva2VuaXplclwiLFxuICBcInRyYWluX21pY3JvX2JhdGNoX3NpemVfcGVyX2dwdVwiOiAxLFxuICBcImdyYWRpZW50X2FjY3VtdWxhdGlvbl9zdGVwc1wiOiAxLFxuICBcInRyYWluX2l0ZXJzXCI6IDEsXG4gIFwibm9fbG9hZF9vcHRpbVwiOiB0cnVlLFxuICBcIm5vX2xvYWRfcm5nXCI6IHRydWUsXG4gIFwidXNlX3dhbmRiXCI6IGZhbHNlLFxuICBcInNlZWRcIjogMTIzNCxcbiAgXCJsb2FkXCI6IFwiL3dvcmtzcGFjZS9ncHQtbmVveC9sb2dzL0luZmVyZW5jZV9UZXN0aW5nL3J1bnMvMjAyNjExMTktMTcyMDQ3LWdwdTEtcmV0cnkxL2NoZWNrcG9pbnRcIixcbiAgXCJpdGVyYXRpb25cIjogMSxcbiAgXCJ0ZXh0X2dlbl90eXBlXCI6IFwiaW5wdXQtZmlsZVwiLFxuICBcInByb21wdF9lbmRcIjogXCJcXG5cIixcbiAgXCJzYW1wbGVfaW5wdXRfZmlsZVwiOiBcIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9wcm9tcHQudHh0XCIsXG4gIFwic2FtcGxlX291dHB1dF9maWxlXCI6IFwiL3dvcmtzcGFjZS9ncHQtbmVveC9sb2dzL0luZmVyZW5jZV9UZXN0aW5nL3J1bnMvMjAyNjExMTktMTcyMDQ3LWdwdTEtcmV0cnkxL2Vwc2lsb25fY3V0b2ZmLmpzb25sXCIsXG4gIFwibWF4aW11bV90b2tlbnNcIjogOCxcbiAgXCJyZXR1cm5fbG9naXRzXCI6IHRydWUsXG4gIFwiZXBzaWxvbl9jdXRvZmZcIjogMC4xNFxufVxuIn0sICJsb2FkIjogIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9ydW5zLzIwMjYxMTE5LTE3MjA0Ny1ncHUxLXJldHJ5MS9jaGVja3BvaW50IiwgIm5vX2xvYWRfb3B0aW0iOiB0cnVlLCAibm9fbG9hZF9ybmciOiB0cnVlLCAiYmF0Y2hfc2l6ZSI6IDEsICJ0cmFpbl9pdGVycyI6IDEsICJkeW5hbWljX2xvc3Nfc2NhbGUiOiB0cnVlLCAid29ybGRfc2l6ZSI6IDEsICJ1c2Vfd2FuZGIiOiBmYWxzZSwgInRleHRfZ2VuX3R5cGUiOiAiaW5wdXQtZmlsZSIsICJlcHNpbG9uX2N1dG9mZiI6IDAuMTQsICJyZXR1cm5fbG9naXRzIjogdHJ1ZSwgIm1heGltdW1fdG9rZW5zIjogOCwgInNhbXBsZV9pbnB1dF9maWxlIjogIi93b3Jrc3BhY2UvZ3B0LW5lb3gvbG9ncy9JbmZlcmVuY2VfVGVzdGluZy9wcm9tcHQudHh0IiwgInNhbXBsZV9vdXRwdXRfZmlsZSI6ICIvd29ya3NwYWNlL2dwdC1uZW94L2xvZ3MvSW5mZXJlbmNlX1Rlc3RpbmcvcnVucy8yMDI2MTExOS0xNzIwNDctZ3B1MS1yZXRyeTEvZXBzaWxvbl9jdXRvZmYuanNvbmwiLCAibG9jYWxfcmFuayI6IDAsICJyYW5rIjogMCwgInVzZXJfc2NyaXB0IjogImdlbmVyYXRlLnB5IiwgIml0ZXJhdGlvbiI6IDEsICJnbG9iYWxfbnVtX2dwdXMiOiAxfQ=='] exits with return code = 1
