@@ -1,0 +1,17 @@
+{
+  "greedy":         {"settings": {},                       "after": "*",   "text": null},
+  "minimum_tokens": {"settings": {"minimum_tokens": 3},    "before": "!$", "after": "*", "text": "AAA"},
+  "at_cap":         {"settings": {"minimum_tokens": 8},    "before": "!$", "after": "*", "text": "AAAAAAAA"},
+  "temperature":    {"settings": {"temperature": 0.8},     "after": "*"},
+  "top_k":          {"settings": {"top_k": 2},             "after": "$A"},
+  "top_p":          {"settings": {"top_p": 0.85},          "after": "$AB"},
+  "min_p":          {"settings": {"min_p": 0.1},           "after": "$ABC"},
+  "top_h":          {"settings": {"top_h": 0.6},           "after": "$A"},
+  "typical_p":      {"settings": {"typical_p": 0.2},       "after": "A",  "text": "AAAAAAAA"},
+  "epsilon_cutoff": {"settings": {"epsilon_cutoff": 0.14}, "after": "$A"},
+  "eta_cutoff":     {"settings": {"eta_cutoff": 0.14},     "after": "$AB"},
+  "combined": {
+    "settings": {"minimum_tokens": 2, "temperature": 0.8, "top_h": 0.9, "top_k": 3, "top_p": 0.85, "min_p": 0.25, "typical_p": 0.9, "epsilon_cutoff": 0.14, "eta_cutoff": 0.14},
+    "before": "AB", "after": "$A"
+  }
+}
