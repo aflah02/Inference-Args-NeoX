@@ -63,7 +63,7 @@ def test_mistyped_sampling_config_is_a_validation_error(name, value):
 
     config = json.loads((Path(__file__).parent / "configs/tiny.json").read_text())
     config[name] = value
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=name):
         NeoXArgs.from_dict(config)
 
 

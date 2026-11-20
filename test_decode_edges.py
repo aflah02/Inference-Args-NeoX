@@ -177,6 +177,30 @@ def test_tiny_positive_temperature_can_still_sample(single_rank):
     assert step[0][0, 1].item() == 1
 
 
+@pytest.mark.parametrize("temperature", [1e-300, 5e-324])
+def test_tiny_temperature_draws_from_tied_maxima(single_rank, temperature):
+    args, model = runtime(scores=(100.0, 4.0, 4.0, -2.0))
+    # minimum_tokens masks the otherwise winning EOS. The other two maxima
+    # must remain equally likely, not collapse to an arbitrary greedy winner.
+    probabilities = torch.tensor([[0.0, 0.5, 0.5, 0.0]])
+    with torch.random.fork_rng(devices=[]):
+        for seed in range(20):
+            rng = torch.Generator().manual_seed(seed)
+            expected = torch.multinomial(probabilities, 1, generator=rng)
+            torch.random.default_generator.manual_seed(seed)
+            (step,) = gen.stream_tokens(
+                args,
+                model,
+                [[2]],
+                minimum_tokens=1,
+                maximum_tokens=1,
+                temperature=temperature,
+            )
+            torch.testing.assert_close(step[3].softmax(-1), probabilities)
+            assert step[0][0, 1].item() == expected.item()
+            assert torch.equal(torch.get_rng_state(), rng.get_state())
+
+
 @pytest.mark.parametrize("recompute", [False, True])
 def test_ragged_prompts_mask_eos_per_row(single_rank, recompute):
     args, model = runtime()

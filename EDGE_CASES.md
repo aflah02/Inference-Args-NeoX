@@ -30,21 +30,23 @@ uses a fixed model head: it exercises actual collectives, not DeepSpeed's GPU
 layers, checkpoint loading, or NCCL. The 128 subsets cover all on/off
 combinations, not every possible real-valued threshold, model or prompt.
 
-## Reproduced failures on NeoX `866e5e1`
+## Regression cases
 
-All 25 golden cases passed, including 500 seeded CPU generations. The pytest
-sweep had 365 passes and six failures. The failing cases are ordinary
-assertions, not skips or expected failures:
+These four cases caused six failures on NeoX `866e5e1` even though all 25
+golden configurations passed. On [NeoX `20e7abd`](https://github.com/aflah02/gpt-neox/commit/20e7abd)
+all 389 CPU tests pass, as do the 25 filter cases and 500 seeded golden
+generations. The regressions remain ordinary assertions:
 
-- Four equiprobable tokens with `top_p=0.5`: NeoX keeps three; two already
-  reach the requested mass. Compare the [HF cutoff rule](https://github.com/huggingface/transformers/blob/v5.14.0/src/transformers/generation/logits_process.py).
-- Ragged batch `[[3], [1, 1, 1]]` with stop sequence `[1, 1]`: the longer
-  row reports finished while it is still consuming its prompt.
-- `temperature=1e-300` is accepted as finite and positive but the FP32
-  scaling produces invalid multinomial probabilities instead of a token.
-- Config inputs `top_k: true`, `temperature: "0.5"`, and
-  `minimum_tokens: 1.5` raise an internal `AttributeError` on `__origin__`
-  instead of a validation error.
+- With four equiprobable tokens, `top_p=0.5` must retain exactly two. A third
+  token is needed at `0.51`, but not at `0.49`. See the [HF cutoff rule](https://github.com/huggingface/transformers/blob/v5.14.0/src/transformers/generation/logits_process.py).
+- In a batch with unequal prompt lengths, a stop sequence must be generated
+  entirely by that row. A match inside its prompt or across the prompt boundary
+  must not stop it; two generated stop tokens must.
+- `temperature=1e-300` and `5e-324` must still sample. With EOS masked and
+  two tied maxima, the decoder's probabilities, token draw and post-draw RNG
+  state are compared to an independent 50/50 multinomial draw over 20 seeds.
+- `top_k: true`, `temperature: "0.5"`, and `minimum_tokens: 1.5` must raise
+  a `ValueError` naming the offending field before model setup.
 
 ## GPU checks
 
