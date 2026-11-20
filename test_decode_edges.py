@@ -157,13 +157,17 @@ def test_harness_with_real_decoder(single_rank):
             request(do_sample=True, minimum_tokens=2, top_k=1),
         ]
     ) == ["", "AA", "AA"]
-    for bad in (
-        {"do_sample": True, "temperature": 0},
-        {"do_sample": "false"},
-        {"until": 42},
+    for bad, field in (
+        ({"do_sample": True, "temperature": 0}, "temperature"),
+        ({"do_sample": "false"}, "do_sample"),
+        ({"until": 42}, "until"),
+        ({"do_sample": True, "min_p": 1.1}, "min_p"),
+        ({"minimum_tokens": 3, "max_gen_toks": 2}, "minimum_tokens"),
     ):
-        with pytest.raises(ValueError):
+        previous_calls = model.module.calls
+        with pytest.raises(ValueError, match=field):
             adapter.generate_until([request(**bad)])
+        assert model.module.calls == previous_calls
         assert model.module.training
 
 

@@ -17,7 +17,7 @@ rerun an individual golden case, or pytest's `-k` to select an edge regression.
 | --- | --- |
 | Filters and order | All 128 enabled/disabled subsets of the seven filters on a noncontiguous three-row tensor. A separate scalar probability/entropy calculation predicts the eligible IDs; remaining logit values must be unchanged. |
 | Numeric boundaries | Exact cumulative mass, tied maxima, inclusive cutoffs, top-k above vocabulary size, top-h's top-100 cap at widths 99/100/101/512, singleton vocabularies and pre-masked scores in FP16/BF16/FP32/FP64. |
-| Validation | Negative, nonfinite, boolean, string, fractional-count and out-of-range values; neutral defaults; inconsistent min/max; config versus overrides; when to warn and when not to warn. |
+| Validation | Negative, nonfinite, boolean, string, fractional-count and out-of-range values; neutral defaults; inconsistent min/max. The CLI validates at config load without repeating warnings; Python and lm-eval requests validate their own options before any forward pass. |
 | Generation | Cached and recomputed paths, returned scores on/off, no prompts, empty text, zero/one/inferred budgets, exact-fill and overlong contexts, stop groups, ragged prompts, per-row EOS masks, and early-EOS score lengths. |
 | RNG and modes | Each of the 25 golden configurations runs on 20 seeds. Separate tests compare draws to a seeded PyTorch reference at low and high temperatures, and run lm-eval greedy/sampling requests through the real decoder. |
 | CLI helpers and lifecycle | Delimiter splitting, duplicate prompts/order, output overwrite and empty files, unconditional generation, interactive EOF, and cache cleanup on exhaustion, close and exceptions. |
@@ -33,8 +33,8 @@ combinations, not every possible real-valued threshold, model or prompt.
 ## Regression cases
 
 These four cases caused six failures on NeoX `866e5e1` even though all 25
-golden configurations passed. On [NeoX `20e7abd`](https://github.com/aflah02/gpt-neox/commit/20e7abd)
-all 389 CPU tests pass, as do the 25 filter cases and 500 seeded golden
+golden configurations passed. On [NeoX `1060c99`](https://github.com/aflah02/gpt-neox/commit/1060c99)
+all 394 CPU tests pass, as do the 25 filter cases and 500 seeded golden
 generations. The regressions remain ordinary assertions:
 
 - With four equiprobable tokens, `top_p=0.5` must retain exactly two. A third
@@ -51,10 +51,20 @@ generations. The regressions remain ordinary assertions:
 ## GPU checks
 
 On a GPU host, run the standalone matrix **without** a CPU flag to exercise
-checkpoint loading and file generation. For actual tensor/pipeline parallel
-engines, use NeoX's distributed integration tests (some layouts need four GPUs):
+checkpoint loading and file generation. After changes to config handling, a
+shorter integration run covers greedy decoding with ignored filters, sampling
+with all seven filters, and vocabulary-dependent top-k truncation. The driver
+checks that each expected warning appears exactly once across launcher and worker:
 
 ```bash
-bash logs/Inference_Testing/run_in_docker.sh
-python -m pytest -q tests/model/test_model_generation.py -k 'matches_single_rank'
+bash logs/Inference_Testing/run_in_docker.sh --case greedy_all_filters --case combined --case top_k_over_vocab
 ```
+
+To compare real CUDA engines against single-rank outputs, run
+`python -m pytest -q -rs tests/model/test_model_generation.py -k matches_single_rank`
+with NeoX's GPU dependencies installed. Two GPUs cover non-pipeline TP=2 and
+the pipeline engine with PP=2, TP=2, or DP=2 separately. The combined PP=2 ×
+TP=2 test requires four GPUs and is reported as skipped on a two-GPU host.
+
+On NeoX `1060c99`, all three checkpoint cases and all four supported NCCL
+layouts passed on a two-A100 host; only the four-GPU layout was skipped.

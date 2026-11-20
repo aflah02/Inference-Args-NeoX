@@ -16,6 +16,10 @@ PROMPT = HERE / "prompt.txt"
 CASES = json.loads((HERE / "configs/cases.json").read_text())
 LIMIT = 8
 VOCAB = 512
+CLI_WARNINGS = {
+    "greedy_all_filters": "temperature=0 selects greedy decoding; these sampling filters will be ignored:",
+    "top_k_over_vocab": f"truncating top_k to {VOCAB}",
+}
 PROBS = dict(zip([0, *map(ord, "ABCD")], [0.55, 0.25, 0.12, 0.06, 0.02]))
 RAW = [math.log(PROBS[i]) if i in PROBS else -50.0 for i in range(VOCAB)]
 
@@ -225,10 +229,15 @@ def main():
         for name, path in cases.items():
             print(f"Running {name}...", flush=True)
             try:
-                launch("generate.py", path, out / f"{name}.log")
+                log = out / f"{name}.log"
+                launch("generate.py", path, log)
                 # There is exactly one one-token prompt per invocation.
                 row = json.loads((out / f"{name}.jsonl").read_text())
                 verify(row, CASES[name])
+                # Include both the deepy launcher and its worker in the count.
+                warning = CLI_WARNINGS.get(name)
+                if warning and log.read_text().count(warning) != 1:
+                    raise ValueError(f"expected exactly one CLI warning containing {warning!r}; see {log}")
             except (OSError, ValueError, RuntimeError, KeyError, TypeError) as exc:
                 result = f"{name}\tFAIL\t{exc}"
             else:
