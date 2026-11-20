@@ -13,7 +13,7 @@ fi
 device_args=(--gpus "device=${GPU_DEVICE:-0}")
 for arg in "$@"; do
     case "$arg" in
-        --cpu-filters|--cpu-decode|--list|--prepare-only)
+        --cpu-all|--cpu-filters|--cpu-decode|--list|--prepare-only)
             device_args=(--env NVIDIA_VISIBLE_DEVICES=void --env CUDA_VISIBLE_DEVICES=)
             break ;;
     esac
@@ -60,5 +60,13 @@ if ds.version == "0.16.5+91d1c55b":
         (overlay / engine).write_text(original.replace(old, new, 1))
         print("Applied DeeperSpeed weights-only checkpoint guard in", overlay, flush=True)
 PY
+if [[ " $* " == *" --cpu-all "* ]]; then
+    # Some images include newer datasets/PEFT than the bundled lm-eval supports.
+    # Install the repository's pins in the disposable overlay only if necessary.
+    if ! python3 -c 'from datasets import load_metric; from peft import PeftModel' >/dev/null 2>&1; then
+        python3 -m pip install --user --disable-pip-version-check 'datasets<3.0.0'
+        python3 -m pip install --user --disable-pip-version-check --no-deps 'peft==0.9.0'
+    fi
+fi
 exec python3 logs/Inference_Testing/run_matrix.py "$@"
 IN_CONTAINER

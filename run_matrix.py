@@ -109,6 +109,31 @@ def cpu_decode(names):
         torch.distributed.destroy_process_group()
 
 
+def cpu_all():
+    """Run both golden matrices plus standalone and NeoX regression tests."""
+    # Keep config-loader logs, pytest state, and file-based rendezvous outside the checkout.
+    with tempfile.TemporaryDirectory(prefix="neox-cpu-suite-") as scratch:
+        for name in ("tests", "configs"):
+            (Path(scratch) / name).symlink_to(ROOT / name, target_is_directory=True)
+        env = dict(os.environ, CUDA_VISIBLE_DEVICES="", PYTHONDONTWRITEBYTECODE="1",
+                   OMP_NUM_THREADS="1")
+        env["PYTHONPATH"] = os.pathsep.join(filter(None, (str(ROOT), env.get("PYTHONPATH"))))
+        commands = [
+            [str(HERE / "run_matrix.py"), "--cpu-filters"],
+            [str(HERE / "run_matrix.py"), "--cpu-decode"],
+            ["-m", "pytest", "-q", "--tb=short", "-p", "no:cacheprovider",
+             str(HERE / "test_filter_edges.py"), str(HERE / "test_decode_edges.py"),
+             str(ROOT / "tests/unit/test_text_generation_utils.py"),
+             str(ROOT / "tests/unit/test_eval_generation.py"),
+             str(ROOT / "tests/neox_args/test_neoxargs_load.py")],
+        ]
+        failures = 0
+        for cmd in commands:
+            status = subprocess.run([sys.executable, *cmd], cwd=scratch, env=env)
+            failures += status.returncode != 0
+        return int(failures != 0)
+
+
 def verify(row, case):
     """Check live processed scores and tokens; there must be no post-EOS rows."""
     minimum = case["settings"].get("minimum_tokens", 0)
@@ -151,8 +176,13 @@ def main():
     mode.add_argument("--prepare-only", action="store_true", help="render configs without CUDA or NeoX")
     mode.add_argument("--cpu-filters", action="store_true", help="check production CPU logit transforms without launching a model (needs NeoX dependencies)")
     mode.add_argument("--cpu-decode", action="store_true", help="run the production decoder on fixed CPU logits across 20 seeds per case")
+    mode.add_argument("--cpu-all", action="store_true", help="run all CPU matrices, boundary, two-rank Gloo, and NeoX regression tests without writing to the checkout")
     parser.add_argument("--output-dir", type=Path, help="new directory (default: fresh runs/run-* directory)")
     args = parser.parse_args()
+    if args.cpu_all:
+        if args.case or args.output_dir:
+            parser.error("--cpu-all runs the full suite in a temporary directory; omit --case and --output-dir")
+        return cpu_all()
     cases = dict.fromkeys(args.case or CASES)
     if args.list:
         print("\n".join(cases))
