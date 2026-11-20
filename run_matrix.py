@@ -146,6 +146,8 @@ def verify(row, case):
     text = row["text"] or ""
     if not (row["context"] == "Q" and len(text) == n and minimum <= n <= LIMIT):
         raise ValueError(f"unexpected prompt or completion: {text!r}, length={n}")
+    if row["message"] is not None:
+        raise ValueError(f"unexpected generation message: {row['message']}")
     steps = n + int(finished)
     if not (0 < steps <= LIMIT and (finished or n == LIMIT)):
         raise ValueError(f"unexpected stopping condition: length={n}, finished={finished}")

@@ -99,6 +99,9 @@ def test_token_budget_and_output(
         finished,
     )
     assert model.module.calls == steps
+    assert row["message"] == (
+        None if steps else "No decode steps: the token budget or available context is zero."
+    )
     assert ("logits" in row) == scores_on
     if scores_on:
         assert len(row["logits"]) == steps
