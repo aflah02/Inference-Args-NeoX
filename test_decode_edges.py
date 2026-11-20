@@ -254,6 +254,8 @@ def test_stop_sequences_and_minimum(single_rank, stops, steps):
     )
     assert len(row["logits"]) == steps
     assert row["finished"] == (steps < 3)
+    # Native output includes the full explicit delimiter. lm-eval strips it.
+    assert (row["text"], row["length"]) == ("A" * steps, steps)
 
 
 def test_input_file_delimiters_and_output_overwrite(single_rank, tmp_path):

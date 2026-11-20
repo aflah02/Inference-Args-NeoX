@@ -21,7 +21,7 @@ rerun an individual golden case, or pytest's `-k` to select an edge regression.
 | Generation | Cached and recomputed paths, returned scores on/off, no prompts, empty text, zero/one/inferred budgets, exact-fill and overlong contexts, stop groups, ragged prompts, per-row EOS masks, and early-EOS score lengths. |
 | RNG and modes | Each of the 25 golden configurations runs on 20 seeds. Separate tests compare draws to a seeded PyTorch reference at low and high temperatures, and run lm-eval greedy/sampling requests through the real decoder. |
 | CLI helpers and lifecycle | Delimiter splitting, duplicate prompts/order, output overwrite and empty files, unconditional generation, interactive EOF, and cache cleanup on exhaustion, close and exceptions. |
-| Tensor parallelism | Two real CPU Gloo processes gather disjoint vocabulary shards and agree on generated tokens. A non-source rank must not advance its RNG. Both cache modes and score output modes are checked. |
+| Tensor parallelism | Two Gloo ranks gather disjoint vocabulary shards; a non-source rank must not advance its RNG. A separate four-process CPU check runs two independent TP groups: one rejects an overlong prompt while the other accepts an exact-fit prompt, and both can run valid requests afterward. |
 
 The edge tests are [test_filter_edges.py](test_filter_edges.py) and
 [test_decode_edges.py](test_decode_edges.py); the runner also invokes NeoX's
@@ -60,9 +60,15 @@ checks that each expected warning appears exactly once across launcher and worke
 bash logs/Inference_Testing/run_in_docker.sh --case greedy_all_filters --case combined --case top_k_over_vocab
 ```
 
-To compare real CUDA engines against single-rank outputs, run
-`python -m pytest -q -rs tests/model/test_model_generation.py -k matches_single_rank`
-with NeoX's GPU dependencies installed. Two GPUs cover non-pipeline TP=2 and
+To compare real CUDA engines against single-rank outputs and check the return
+to training after lm-eval generation, run this with NeoX's GPU and lm-eval
+dependencies installed:
+
+```bash
+python -m pytest -q -rs tests/model/test_model_generation.py -k 'matches_single_rank or pipeline_generation_handoff'
+```
+
+Two GPUs cover non-pipeline TP=2 and
 the pipeline engine with PP=2, TP=2, or DP=2 separately. The combined PP=2 ×
 TP=2 test requires four GPUs and is reported as skipped on a two-GPU host.
 
@@ -76,8 +82,8 @@ passing counts above do **not** establish that these behaviors are correct.
 
 | Case | Observed behavior |
 | --- | --- |
-| lm-eval multi-token stop | A deterministic decoder emitting `A` with the two-token stop `AA` returned `A`, not the empty string. The stop is detected, but only its last token is excluded. |
-| Returning from cached generation to a normal batch (PP=2) | On two GPUs, an ordinary full-sequence evaluation failed after one-token decode buffers were reused. Calling `reset_activation_shape()` on both ranks before the batch made the same forward pass. |
-| Overlong text prompt (non-pipeline TP=2) | The owner raised a length error; its Gloo peer failed in a broadcast instead of raising the same error. The existing overlength and TP tests exercise these separately. |
+| lm-eval multi-token stop | On `1060c99`, stopping on `AA` returned `A` to lm-eval. Fixed since that review: native records keep the full matched delimiter and the adapter returns only the text before it. The CPU regressions check both the text and the number of decode steps. |
+| Returning from cached generation to a normal batch (PP=2) | On `1060c99`, the next full-sequence batch could reuse one-token receive buffers and fail. Fixed since that review: stream cleanup resets pipeline shapes automatically. Run `python -m pytest -q tests/model/test_model_generation.py -k pipeline_generation_handoff` on two GPUs to check resumed training and evaluation after early stream close. |
+| Overlong text prompt (non-pipeline TP=2) | On `1060c99` the owner raised a length error while its peer failed in a broadcast. Fixed since that review: both ranks now report the same prompt length and limit, and the same group can be reused. Covered on CPU/Gloo and GPU/NCCL. |
 | Tied logits at a small positive temperature | With four equal logits of 1 and `top_h=0.75`, three tokens survived at temperature 1 but only one at `1e-9`; the theoretical distribution is uniform at both. |
 | Streaming and caller autograd | In a grad-enabled caller, gradient recording was disabled between `next(stream)` and `stream.close()`. |
