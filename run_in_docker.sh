@@ -10,7 +10,15 @@ if [[ "$security" == *rootless* ]]; then
 else
     uid_gid="$(id -u):$(id -g)"
 fi
-exec docker run --rm -i --gpus "device=${GPU_DEVICE:-0}" --shm-size=1g \
+device_args=(--gpus "device=${GPU_DEVICE:-0}")
+for arg in "$@"; do
+    case "$arg" in
+        --cpu-filters|--cpu-decode|--list|--prepare-only)
+            device_args=(--env NVIDIA_VISIBLE_DEVICES=void --env CUDA_VISIBLE_DEVICES=)
+            break ;;
+    esac
+done
+exec docker run --rm -i "${device_args[@]}" --shm-size=1g \
     --user "$uid_gid" --env HOME=/tmp --env PYTHONDONTWRITEBYTECODE=1 \
     --volume "$root:/workspace/gpt-neox" --workdir /workspace/gpt-neox \
     "${GPT_NEOX_IMAGE:-gpt-neox:latest}" bash -seu -o pipefail -- "$@" <<'IN_CONTAINER'

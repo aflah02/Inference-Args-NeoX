@@ -32,7 +32,9 @@ def check_scores(scores, allowed, temperature, step):
     if len(scores) != VOCAB:
         raise ValueError(f"step {step}: expected {VOCAB} logits, got {len(scores)}")
     for token, score in enumerate(scores):
-        expected = RAW[token] / temperature if token in allowed else -math.inf
+        expected = RAW[token] / temperature if temperature > 0 else RAW[token]
+        if token not in allowed:
+            expected = -math.inf
         if not math.isclose(score, expected, rel_tol=1e-3, abs_tol=1e-5):
             raise ValueError(f"step {step}, token {token}: expected {expected}, got {score}")
 
@@ -47,21 +49,70 @@ def cpu_filters(names):
         case = CASES[name]
         settings = case["settings"].copy()
         minimum = settings.pop("minimum_tokens", 0)
-        temperature = settings.pop("temperature", 0.0) or 1.0
+        temperature = settings.pop("temperature", 0.0)
         counts = [0, minimum]
         logits = torch.tensor([RAW, RAW], dtype=torch.float32)
         _mask_eos_before_minimum_tokens(logits, 0, torch.tensor(counts), minimum)
-        filtered = filter_logits(logits / temperature, **settings)
+        filtered = filter_logits(logits / temperature, **settings) if temperature > 0 else logits
         for scores, count in zip(filtered.tolist(), counts):
             mask = case["before"] if count < minimum else case["after"]
             check_scores(scores, expected_ids(mask), temperature, count)
         print(f"{name}\tPASS (CPU filters)")
 
 
+def cpu_decode(names):
+    """Run the production decoder with the checkpoint's known readout, on one Gloo rank."""
+    sys.path.insert(0, str(ROOT))
+    from types import SimpleNamespace
+    import torch
+    from megatron import mpu
+    from megatron.text_generation_utils import generate_samples_from_prompt
+    from megatron.tokenizer.tokenizer import CharLevelTokenizer
+
+    class FixedReadout(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.register_buffer("scores", torch.tensor(RAW, dtype=torch.float32))
+
+        def forward(self, inputs):
+            # A fresh tensor per forward: the decoder masks scores in place.
+            return self.scores.expand(*inputs[0].shape, -1).clone()
+
+        def clear_cache(self):
+            pass  # The readout is independent of its input and has no KV cache.
+
+    model = torch.nn.Module()
+    model.device = torch.device("cpu")
+    model.module = FixedReadout()
+    args = SimpleNamespace(tokenizer=CharLevelTokenizer(VOCAB), padded_vocab_size=VOCAB,
+                           seq_length=32, eod_mask_loss=False, sliding_window_width=None,
+                           is_pipe_parallel=False, return_logits=True)
+    torch.set_num_threads(1)
+    torch.distributed.init_process_group("gloo", store=torch.distributed.HashStore(), rank=0, world_size=1)
+    try:
+        mpu.initialize_model_parallel(1)
+        for name in names:
+            case = CASES[name]
+            settings = case["settings"]
+            should_sample = settings.get("temperature", 0.0) > 0
+            for seed in range(20):
+                torch.random.default_generator.manual_seed(seed)
+                before = torch.get_rng_state()
+                row, = generate_samples_from_prompt(args, model, "Q", maximum_tokens=LIMIT, **settings)
+                used_rng = not torch.equal(torch.get_rng_state(), before)
+                if used_rng != should_sample:
+                    raise ValueError(f"{name}, seed {seed}: expected sampling={should_sample}, used RNG={used_rng}")
+                verify(row, case)
+            print(f"{name}\tPASS (CPU decode, 20 seeds)")
+    finally:
+        mpu.destroy_model_parallel()
+        torch.distributed.destroy_process_group()
+
+
 def verify(row, case):
-    """Check the live logits and chosen tokens; unused post-EOS rows are unspecified."""
+    """Check live processed scores and tokens; there must be no post-EOS rows."""
     minimum = case["settings"].get("minimum_tokens", 0)
-    temperature = case["settings"].get("temperature") or 1.0
+    temperature = case["settings"].get("temperature", 0.0)
     n, finished = row["length"], row["finished"]
     text = row["text"] or ""
     if not (row["context"] == "Q" and len(text) == n and minimum <= n <= LIMIT):
@@ -71,9 +122,9 @@ def verify(row, case):
         raise ValueError(f"unexpected stopping condition: length={n}, finished={finished}")
     if "text" in case and row["text"] != case["text"]:
         raise ValueError(f"expected {case['text']!r}, got {row['text']!r}")
-    if len(row["logits"]) < steps:
-        raise ValueError("missing decode steps")
-    for step, scores in enumerate(row["logits"][:steps]):
+    if len(row["logits"]) != steps:
+        raise ValueError(f"expected exactly {steps} score rows, got {len(row['logits'])}")
+    for step, scores in enumerate(row["logits"]):
         allowed = expected_ids(case["before"] if step < minimum else case["after"])
         check_scores(scores, allowed, temperature, step)
         token = ord(text[step]) if step < n else 0  # EOS is omitted from completion text.
@@ -99,6 +150,7 @@ def main():
     mode.add_argument("--list", action="store_true", help="list cases without writing files")
     mode.add_argument("--prepare-only", action="store_true", help="render configs without CUDA or NeoX")
     mode.add_argument("--cpu-filters", action="store_true", help="check production CPU logit transforms without launching a model (needs NeoX dependencies)")
+    mode.add_argument("--cpu-decode", action="store_true", help="run the production decoder on fixed CPU logits across 20 seeds per case")
     parser.add_argument("--output-dir", type=Path, help="new directory (default: fresh runs/run-* directory)")
     args = parser.parse_args()
     cases = dict.fromkeys(args.case or CASES)
@@ -107,6 +159,9 @@ def main():
         return 0
     if args.cpu_filters:
         cpu_filters(cases)
+        return 0
+    if args.cpu_decode:
+        cpu_decode(cases)
         return 0
     if args.output_dir:
         out = args.output_dir.resolve()
