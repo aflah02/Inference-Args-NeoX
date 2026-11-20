@@ -68,3 +68,16 @@ TP=2 test requires four GPUs and is reported as skipped on a two-GPU host.
 
 On NeoX `1060c99`, all three checkpoint cases and all four supported NCCL
 layouts passed on a two-A100 host; only the four-GPU layout was skipped.
+
+## Known gaps in the passing suite
+
+Targeted checks on the same NeoX revision exposed the following cases. The
+passing counts above do **not** establish that these behaviors are correct.
+
+| Case | Observed behavior |
+| --- | --- |
+| lm-eval multi-token stop | A deterministic decoder emitting `A` with the two-token stop `AA` returned `A`, not the empty string. The stop is detected, but only its last token is excluded. |
+| Returning from cached generation to a normal batch (PP=2) | On two GPUs, an ordinary full-sequence evaluation failed after one-token decode buffers were reused. Calling `reset_activation_shape()` on both ranks before the batch made the same forward pass. |
+| Overlong text prompt (non-pipeline TP=2) | The owner raised a length error; its Gloo peer failed in a broadcast instead of raising the same error. The existing overlength and TP tests exercise these separately. |
+| Tied logits at a small positive temperature | With four equal logits of 1 and `top_h=0.75`, three tokens survived at temperature 1 but only one at `1e-9`; the theoretical distribution is uniform at both. |
+| Streaming and caller autograd | In a grad-enabled caller, gradient recording was disabled between `next(stream)` and `stream.close()`. |

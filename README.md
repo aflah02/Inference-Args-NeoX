@@ -1,9 +1,10 @@
 # Inference sampling smoke tests
 
-This matrix exercises the real `deepy.py generate.py` input-file path on one
-CUDA GPU. It creates a native checkpoint locally: two GPT-NeoX layers, hidden
-size 64, four attention heads, FP32, and the built-in 512-token character
-tokenizer. No training, dataset, pretrained weights, or W&B login is needed.
+Run the sampler and decoder on CPU, or exercise the full
+`deepy.py generate.py` input-file path on one CUDA GPU. The GPU run creates
+a native checkpoint locally: two GPT-NeoX layers, hidden size 64, four
+attention heads, FP32, and the built-in 512-token character tokenizer. No
+training, dataset, pretrained weights, or W&B login is needed.
 
 ## Running
 
@@ -15,14 +16,22 @@ python3 logs/Inference_Testing/run_matrix.py --list
 python3 logs/Inference_Testing/run_matrix.py --prepare-only
 ```
 
-With NeoX dependencies installed but **no GPU**, use `--cpu-filters` to check
-the actual logit processors, including two rows on opposite sides of the EOS
-boundary. This does not exercise checkpoint loading or decoding. For example:
+For CPU-only CI, use the full suite. The Docker wrapper hides CUDA in every
+CPU mode and applies image compatibility fixes in a disposable directory:
 
 ```bash
-docker run --rm -v "$PWD:/workspace/gpt-neox:ro" -w /workspace/gpt-neox \
-  gpt-neox:latest python3 logs/Inference_Testing/run_matrix.py --cpu-filters
+bash logs/Inference_Testing/run_in_docker.sh --cpu-all
+# Or isolate the processors or one end-to-end CPU decoder fixture:
+bash logs/Inference_Testing/run_in_docker.sh --cpu-filters
+bash logs/Inference_Testing/run_in_docker.sh --cpu-decode --case combined
 ```
+
+With the dependencies installed locally, pass the same flags to
+`python3 logs/Inference_Testing/run_matrix.py`. The CPU decoder uses a fixed
+model head and 20 seeds per golden configuration. The full CPU suite also
+exercises configuration, lm-eval requests, and two-rank Gloo communication;
+it does not load a GPU checkpoint. See [edge-case coverage](EDGE_CASES.md)
+for boundaries, GPU/NCCL checks and hardware requirements.
 
 On a machine with one GPU visible and GPT-NeoX dependencies installed:
 
@@ -39,11 +48,11 @@ bash logs/Inference_Testing/run_in_docker.sh
 # Optional: GPU_DEVICE=1 GPT_NEOX_IMAGE=gpt-neox:latest bash logs/Inference_Testing/run_in_docker.sh --case combined
 ```
 
-The wrapper defaults to GPU 0 and `gpt-neox:latest`, and selects the host user's
-mapped UID for both rootless and rootful Docker. The checkout must be writable:
+For GPU launches, the wrapper defaults to GPU 0 and `gpt-neox:latest`, and
+selects the host user's mapped UID for rootless or rootful Docker. The checkout must be writable:
 NeoX compiles its dataset helper in `megatron/data/` at initialization.
-Each invocation gets a fresh `runs/run-*/` directory with rendered configs.
-A live run also writes the checkpoint, per-case logs and JSONL, and
+Preparing configs or running the GPU matrix creates a fresh `runs/run-*/`
+directory with rendered configs. A GPU run also writes the checkpoint, per-case logs and JSONL, and
 `summary.tsv`; a failed assertion or launch makes the runner exit nonzero.
 Use `--output-dir PATH` to choose a **new** directory. Paths in the rendered
 configs belong to the environment that rendered them; run the driver inside
@@ -82,8 +91,9 @@ For stochastic sampling there is generally **no single correct string**.
 [The verifier](run_matrix.py) checks every vocabulary logit at every executed
 step: eligible tokens retain their known score (rescaled if temperature is
 set), and all others must be `-inf`. It also checks that each draw was eligible
-and that generation stopped at EOS or the eight-token cap. Unused logit rows
-after termination are ignored. A pass establishes these behaviors for this
+and that generation stopped at EOS or the eight-token cap. The row count must
+equal the number of executed steps, including EOS if emitted; any missing or
+extra row fails the case. A pass establishes these behaviors for this
 fixture, not language quality, sampling-frequency calibration, or full HF parity.
 
 | Case | Expected behavior |
